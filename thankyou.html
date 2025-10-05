@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You - Trifecta Verde En Resplandor</title>
+    <link rel="icon" type="image/png" href="./images/TVER 1080 RGB Logo - Transparency.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Regan', 'Arial', sans-serif;
+            background: linear-gradient(135deg, #103c3b 0%, #0d3a39 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .thank-you-container {
+            text-align: center;
+            padding: 60px 40px;
+            max-width: 600px;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .checkmark-circle {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            border-radius: 50%;
+            background: rgba(105, 188, 138, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: scaleIn 0.5s ease-out 0.2s backwards;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .checkmark {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: #69bc8a;
+            position: relative;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(105, 188, 138, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 0 20px rgba(105, 188, 138, 0);
+            }
+        }
+
+        .checkmark::after {
+            content: '';
+            position: absolute;
+            left: 25px;
+            top: 15px;
+            width: 12px;
+            height: 24px;
+            border: solid white;
+            border-width: 0 4px 4px 0;
+            transform: rotate(45deg);
+            animation: checkDraw 0.4s ease-out 0.4s backwards;
+        }
+
+        @keyframes checkDraw {
+            from {
+                height: 0;
+            }
+            to {
+                height: 24px;
+            }
+        }
+
+        .thank-you-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            animation: fadeIn 0.6s ease-out 0.3s backwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .thank-you-message {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            margin-bottom: 30px;
+            animation: fadeIn 0.6s ease-out 0.5s backwards;
+        }
+
+        .redirect-text {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            animation: fadeIn 0.6s ease-out 0.7s backwards;
+        }
+
+        .spinner {
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #69bc8a;
+            border-radius: 50%;
+            margin: 20px auto 0;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .thank-you-container {
+                padding: 40px 30px;
+            }
+
+            .thank-you-title {
+                font-size: 2.2rem;
+            }
+
+            .thank-you-message {
+                font-size: 1rem;
+            }
+
+            .checkmark-circle {
+                width: 100px;
+                height: 100px;
+            }
+
+            .checkmark {
+                width: 60px;
+                height: 60px;
+            }
+
+            .checkmark::after {
+                left: 22px;
+                top: 12px;
+                width: 10px;
+                height: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .thank-you-container {
+                padding: 30px 20px;
+            }
+
+            .thank-you-title {
+                font-size: 1.8rem;
+            }
+
+            .thank-you-message {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="thank-you-container">
+        <div class="checkmark-circle">
+            <div class="checkmark"></div>
+        </div>
+        
+        <h1 class="thank-you-title">Thank You!</h1>
+        
+        <p class="thank-you-message">
+            Your form has been submitted successfully. We appreciate your interest in Trifecta Verde En Resplandor. 
+            Our team will contact you shortly.
+        </p>
+        
+        <p class="redirect-text">
+            Redirecting you to the homepage...
+        </p>
+        
+        <div class="spinner"></div>
+    </div>
+
+    <script>
+        // Redirect to homepage after 3 seconds
+        setTimeout(function() {
+            window.location.href = './index.html';
+        }, 3000);
+    </script>
+</body>
+</html>

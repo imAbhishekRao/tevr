@@ -30,27 +30,15 @@ function submitTrifectaPopupForm(formSelector, buttonSelector, noteSelector) {
       contentType: "application/json",
       dataType: "json",
       success: function (response) {
-        $(buttonSelector).removeAttr("disabled").text("Download Now");
-        var result;
-
         if (response.message) {
-          result =
-            '<p style="color:green; font-weight: 600; font-size: 16px; width:100%">Request Sent Successfully! Check your email.</p>';
-          $(noteSelector).delay(5000).fadeOut();
-          $(formSelector)[0].reset();
-
-          // Optional: Close popup after successful submission
-          setTimeout(function () {
-            closeBrochurePopup();
-          }, 2000);
+          // Redirect to thank you page
+          window.location.href = './thank-you.html';
         } else {
-          result =
-            '<p style="color:red; font-weight: 600; font-size: 16px; width:100%">' +
-            (response.error || "Unknown error occurred") +
-            "</p>";
+          $(buttonSelector).removeAttr("disabled").text("Download Now");
+          var result = '<p style="color:red; font-weight: 600; font-size: 16px; width:100%">' +
+            (response.error || "Unknown error occurred") + "</p>";
+          $(noteSelector).html(result).show();
         }
-
-        $(noteSelector).html(result).show();
       },
       error: function (xhr) {
         $(buttonSelector).removeAttr("disabled").text("Download Now");
@@ -107,22 +95,15 @@ function submitRowhomesForm(formSelector, buttonSelector, noteSelector) {
       contentType: "application/json",
       dataType: "json",
       success: function (response) {
-        $(buttonSelector).removeAttr("disabled").text(originalText);
-        var result;
-
         if (response.message) {
-          result =
-            '<p style="color:green; font-weight: 600; font-size: 16px; width:100%">Booking request sent successfully!</p>';
-          $(noteSelector).delay(5000).fadeOut();
-          $(formSelector)[0].reset();
+          // Redirect to thank you page
+          window.location.href = './thank-you.html';
         } else {
-          result =
-            '<p style="color:red; font-weight: 600; font-size: 16px; width:100%">' +
-            (response.error || "Unknown error occurred") +
-            "</p>";
+          $(buttonSelector).removeAttr("disabled").text(originalText);
+          var result = '<p style="color:red; font-weight: 600; font-size: 16px; width:100%">' +
+            (response.error || "Unknown error occurred") + "</p>";
+          $(noteSelector).html(result).show();
         }
-
-        $(noteSelector).html(result).show();
       },
       error: function (xhr) {
         $(buttonSelector).removeAttr("disabled").text(originalText);
@@ -188,28 +169,18 @@ function submitVillasForm(formSelector, buttonSelector, noteSelector) {
       })
         .then((response) => response.json())
         .then((data) => {
-          button.disabled = false;
-          button.textContent = originalText;
-
-          const noteElement = document.querySelector(noteSelector);
-          let result;
-
           if (data.message) {
-            result =
-              '<p style="color:green; font-weight: 600; font-size: 16px; width:100%">Booking request sent successfully!</p>';
-            setTimeout(() => {
-              noteElement.style.display = "none";
-            }, 5000);
-            document.querySelector(formSelector).reset();
+            // Redirect to thank you page
+            window.location.href = './thank-you.html';
           } else {
-            result =
-              '<p style="color:red; font-weight: 600; font-size: 16px; width:100%">' +
-              (data.error || "Unknown error occurred") +
-              "</p>";
+            button.disabled = false;
+            button.textContent = originalText;
+            const noteElement = document.querySelector(noteSelector);
+            let result = '<p style="color:red; font-weight: 600; font-size: 16px; width:100%">' +
+              (data.error || "Unknown error occurred") + "</p>";
+            noteElement.innerHTML = result;
+            noteElement.style.display = "block";
           }
-
-          noteElement.innerHTML = result;
-          noteElement.style.display = "block";
         })
         .catch((error) => {
           button.disabled = false;
@@ -222,8 +193,6 @@ function submitVillasForm(formSelector, buttonSelector, noteSelector) {
         });
     });
 }
-
-// Initialize the form
 
 // Initialize all forms when document is ready
 $(document).ready(function () {
@@ -247,8 +216,6 @@ $(document).ready(function () {
     "#villasForm button[type='submit']",
     "#villasForm .booking-form-note"
   );
-
-  // submitVillasForm('#villasForm', '.booking-submit-btn', '.booking-form-note');
 });
 
 // navbar section
@@ -1798,3 +1765,6 @@ function showPhase(phaseNumber) {
                 }
             });
         })();
+
+
+        
