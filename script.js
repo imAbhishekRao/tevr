@@ -15,8 +15,12 @@ function submitTrifectaPopupForm(formSelector, buttonSelector, noteSelector) {
       phoneCode: $(formSelector + ' [name="phoneCode"]').val(),
       phoneNumber: $(formSelector + ' [name="phoneNumber"]').val(),
       propertyType: $(formSelector + ' [name="propertyType"]').val(),
-      agreeToUpdates: $(formSelector + ' [name="agreeToUpdates"]').is(':checked') ? 'yes' : 'no',
-      formType: 'brochure_download'
+      agreeToUpdates: $(formSelector + ' [name="agreeToUpdates"]').is(
+        ":checked"
+      )
+        ? "yes"
+        : "no",
+      formType: "brochure_download",
     };
 
     $.ajax({
@@ -34,15 +38,15 @@ function submitTrifectaPopupForm(formSelector, buttonSelector, noteSelector) {
             '<p style="color:green; font-weight: 600; font-size: 16px; width:100%">Request Sent Successfully! Check your email.</p>';
           $(noteSelector).delay(5000).fadeOut();
           $(formSelector)[0].reset();
-          
+
           // Optional: Close popup after successful submission
-          setTimeout(function() {
+          setTimeout(function () {
             closeBrochurePopup();
           }, 2000);
         } else {
           result =
             '<p style="color:red; font-weight: 600; font-size: 16px; width:100%">' +
-            (response.error || 'Unknown error occurred') +
+            (response.error || "Unknown error occurred") +
             "</p>";
         }
 
@@ -50,8 +54,8 @@ function submitTrifectaPopupForm(formSelector, buttonSelector, noteSelector) {
       },
       error: function (xhr) {
         $(buttonSelector).removeAttr("disabled").text("Download Now");
-        var errorMsg = 'Error sending request!';
-        
+        var errorMsg = "Error sending request!";
+
         try {
           var response = JSON.parse(xhr.responseText);
           if (response.error) {
@@ -60,10 +64,12 @@ function submitTrifectaPopupForm(formSelector, buttonSelector, noteSelector) {
         } catch (e) {
           // Use default error message
         }
-        
+
         $(noteSelector)
           .html(
-            '<p style="color:red; font-weight: 600; font-size: 16px; width:100%">' + errorMsg + '</p>'
+            '<p style="color:red; font-weight: 600; font-size: 16px; width:100%">' +
+              errorMsg +
+              "</p>"
           )
           .show();
       },
@@ -72,11 +78,6 @@ function submitTrifectaPopupForm(formSelector, buttonSelector, noteSelector) {
     return false;
   });
 }
-
-
-
-
-
 
 function submitRowhomesForm(formSelector, buttonSelector, noteSelector) {
   $(formSelector).submit(function (event) {
@@ -95,8 +96,8 @@ function submitRowhomesForm(formSelector, buttonSelector, noteSelector) {
       phoneNumber: $(formSelector + ' [name="phoneNumber"]').val(),
       date: $(formSelector + ' [name="date"]').val(),
       time: $(formSelector + ' [name="time"]').val(),
-      propertyType: 'rowhomes',
-      formType: 'site_visit_booking'
+      propertyType: "rowhomes",
+      formType: "site_visit_booking",
     };
 
     $.ajax({
@@ -117,7 +118,7 @@ function submitRowhomesForm(formSelector, buttonSelector, noteSelector) {
         } else {
           result =
             '<p style="color:red; font-weight: 600; font-size: 16px; width:100%">' +
-            (response.error || 'Unknown error occurred') +
+            (response.error || "Unknown error occurred") +
             "</p>";
         }
 
@@ -125,8 +126,8 @@ function submitRowhomesForm(formSelector, buttonSelector, noteSelector) {
       },
       error: function (xhr) {
         $(buttonSelector).removeAttr("disabled").text(originalText);
-        var errorMsg = 'Error sending booking request!';
-        
+        var errorMsg = "Error sending booking request!";
+
         try {
           var response = JSON.parse(xhr.responseText);
           if (response.error) {
@@ -135,10 +136,12 @@ function submitRowhomesForm(formSelector, buttonSelector, noteSelector) {
         } catch (e) {
           // Use default error message
         }
-        
+
         $(noteSelector)
           .html(
-            '<p style="color:red; font-weight: 600; font-size: 16px; width:100%">' + errorMsg + '</p>'
+            '<p style="color:red; font-weight: 600; font-size: 16px; width:100%">' +
+              errorMsg +
+              "</p>"
           )
           .show();
       },
@@ -149,65 +152,75 @@ function submitRowhomesForm(formSelector, buttonSelector, noteSelector) {
 }
 
 function submitVillasForm(formSelector, buttonSelector, noteSelector) {
-  document.querySelector(formSelector).addEventListener('submit', function(event) {
-    event.preventDefault();
+  document
+    .querySelector(formSelector)
+    .addEventListener("submit", function (event) {
+      event.preventDefault();
 
-    // Disable button and show loading state
-    const button = document.querySelector(buttonSelector);
-    const originalText = button.textContent;
-    button.textContent = "Please Wait...";
-    button.disabled = true;
+      // Disable button and show loading state
+      const button = document.querySelector(buttonSelector);
+      const originalText = button.textContent;
+      button.textContent = "Please Wait...";
+      button.disabled = true;
 
-    // Gather form data
-    const formData = {
-      name: document.querySelector(formSelector + ' [name="name"]').value,
-      email: document.querySelector(formSelector + ' [name="email"]').value,
-      phoneCode: document.querySelector(formSelector + ' [name="phoneCode"]').value,
-      phoneNumber: document.querySelector(formSelector + ' [name="phoneNumber"]').value,
-      date: document.querySelector(formSelector + ' [name="date"]').value,
-      time: document.querySelector(formSelector + ' [name="time"]').value,
-      propertyType: 'villas',
-      formType: 'site_visit_booking'
-    };
+      // Gather form data
+      const formData = {
+        name: document.querySelector(formSelector + ' [name="name"]').value,
+        email: document.querySelector(formSelector + ' [name="email"]').value,
+        phoneCode: document.querySelector(formSelector + ' [name="phoneCode"]')
+          .value,
+        phoneNumber: document.querySelector(
+          formSelector + ' [name="phoneNumber"]'
+        ).value,
+        date: document.querySelector(formSelector + ' [name="date"]').value,
+        time: document.querySelector(formSelector + ' [name="time"]').value,
+        propertyType: "villas",
+        formType: "site_visit_booking",
+      };
 
-    // Send AJAX request
-    fetch("submit_lead.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then(response => response.json())
-      .then(data => {
-        button.disabled = false;
-        button.textContent = originalText;
-        
-        const noteElement = document.querySelector(noteSelector);
-        let result;
-
-        if (data.message) {
-          result = '<p style="color:green; font-weight: 600; font-size: 16px; width:100%">Booking request sent successfully!</p>';
-          setTimeout(() => {
-            noteElement.style.display = 'none';
-          }, 5000);
-          document.querySelector(formSelector).reset();
-        } else {
-          result = '<p style="color:red; font-weight: 600; font-size: 16px; width:100%">' + (data.error || 'Unknown error occurred') + '</p>';
-        }
-
-        noteElement.innerHTML = result;
-        noteElement.style.display = 'block';
+      // Send AJAX request
+      fetch("submit_lead.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
       })
-      .catch(error => {
-        button.disabled = false;
-        button.textContent = originalText;
-        
-        const noteElement = document.querySelector(noteSelector);
-        noteElement.innerHTML = '<p style="color:red; font-weight: 600; font-size: 16px; width:100%">Error sending booking request!</p>';
-        noteElement.style.display = 'block';
-      });
-  });
+        .then((response) => response.json())
+        .then((data) => {
+          button.disabled = false;
+          button.textContent = originalText;
+
+          const noteElement = document.querySelector(noteSelector);
+          let result;
+
+          if (data.message) {
+            result =
+              '<p style="color:green; font-weight: 600; font-size: 16px; width:100%">Booking request sent successfully!</p>';
+            setTimeout(() => {
+              noteElement.style.display = "none";
+            }, 5000);
+            document.querySelector(formSelector).reset();
+          } else {
+            result =
+              '<p style="color:red; font-weight: 600; font-size: 16px; width:100%">' +
+              (data.error || "Unknown error occurred") +
+              "</p>";
+          }
+
+          noteElement.innerHTML = result;
+          noteElement.style.display = "block";
+        })
+        .catch((error) => {
+          button.disabled = false;
+          button.textContent = originalText;
+
+          const noteElement = document.querySelector(noteSelector);
+          noteElement.innerHTML =
+            '<p style="color:red; font-weight: 600; font-size: 16px; width:100%">Error sending booking request!</p>';
+          noteElement.style.display = "block";
+        });
+    });
 }
 
 // Initialize the form
@@ -220,7 +233,7 @@ $(document).ready(function () {
     "#brochureDownloadForm button[type='submit']",
     "#brochureDownloadForm .form-note"
   );
-  
+
   // Rowhomes booking form (villaments)
   submitRowhomesForm(
     "#villamentsForm",
@@ -234,21 +247,9 @@ $(document).ready(function () {
     "#villasForm button[type='submit']",
     "#villasForm .booking-form-note"
   );
-  
-// submitVillasForm('#villasForm', '.booking-submit-btn', '.booking-form-note');
+
+  // submitVillasForm('#villasForm', '.booking-submit-btn', '.booking-form-note');
 });
-
-
-
-
-
-
-
-
-
-
-
-
 
 // navbar section
 
@@ -532,23 +533,22 @@ window.addEventListener("load", () => {
 
 // master plan script
 function mpShowPlan(planType) {
-            // Update button states
-            const buttons = document.querySelectorAll('.mp-toggle-btn');
-            buttons.forEach(btn => {
-                btn.classList.remove('mp-active');
-            });
-            event.target.classList.add('mp-active');
+  // Update button states
+  const buttons = document.querySelectorAll(".mp-toggle-btn");
+  buttons.forEach((btn) => {
+    btn.classList.remove("mp-active");
+  });
+  event.target.classList.add("mp-active");
 
-            // Hide all plans
-            const plans = document.querySelectorAll('.mp-plan-view');
-            plans.forEach(plan => {
-                plan.classList.remove('mp-active');
-            });
+  // Hide all plans
+  const plans = document.querySelectorAll(".mp-plan-view");
+  plans.forEach((plan) => {
+    plan.classList.remove("mp-active");
+  });
 
-            // Show selected plan
-            document.getElementById(`mp-${planType}`).classList.add('mp-active');
-        }
-
+  // Show selected plan
+  document.getElementById(`mp-${planType}`).classList.add("mp-active");
+}
 
 // Floor plan data
 const floorPlansData = {
@@ -556,30 +556,25 @@ const floorPlansData = {
     slides: [
       [
         {
-          image:
-            "./images/plan-17.webp",
+          image: "./images/plan-17.webp",
           title: "East Facing - 3328 SQFT",
         },
         {
-          image:
-            "./images/plan-18.webp",
+          image: "./images/plan-18.webp",
           title: "West Facing - 3367 SQFT",
         },
         {
-          image:
-            "./images/plan-19.webp",
+          image: "./images/plan-19.webp",
           title: "West Facing - 2632 SQFT",
         },
       ],
       [
         {
-          image:
-            "./images/plan-20.webp",
+          image: "./images/plan-20.webp",
           title: "West Facing - 2915 SQFT",
         },
         {
-          image:
-            "./images/plan-21.webp",
+          image: "./images/plan-21.webp",
           title: "West Facing - 3125 SQFT",
         },
         // {
@@ -608,30 +603,25 @@ const floorPlansData = {
     slides: [
       [
         {
-          image:
-            "./images/plan-22.webp",
+          image: "./images/plan-22.webp",
           title: "East Facing - 3419 SQFT",
         },
         {
-          image:
-            "./images/plan-23.webp",
+          image: "./images/plan-23.webp",
           title: "East Facing - 4043 SQFT",
         },
         {
-          image:
-            "./images/plan-24.webp",
+          image: "./images/plan-24.webp",
           title: "East Facing - 4523 SQFT",
         },
       ],
       [
         {
-          image:
-            "./images/plan-25.webp",
+          image: "./images/plan-25.webp",
           title: "West Facing - 2632 SQFT",
         },
         {
-          image:
-            "./images/plan-26.webp",
+          image: "./images/plan-26.webp",
           title: "East Facing - 3065 SQFT",
         },
         // {
@@ -831,127 +821,79 @@ document.getElementById("floorPlanSlider").addEventListener("touchend", () => {
 });
 
 // galary section
-      
+
 // Interior showcase data
 const galleryInteriorData = {
   north: [
     {
-      image:
-        "./Row Homes Images/TVER Row Homes Live image 01.jpg",
+      image: "./LP Gallery Villa Images/TVER Villa Phase 1.jpg",
       title: "Modern Row Home Exterior",
       description:
         "Contemporary row home design with elegant architecture and premium finishes.",
     },
     {
-      image:
-        "./Row Homes Images/TVER Row Homes Live image 02.jpg",
+      image: "./LP Gallery Villa Images/TVER Villa Phase 2.jpeg",
       title: "Living Space",
       description:
         "Spacious and modern living area with natural lighting and contemporary furnishing.",
     },
     {
-      image:
-        "./Row Homes Images/TVER Row Homes Live image 03.jpg",
+      image: "./LP Gallery Villa Images/TVER Villa Phase 3.jpeg",
       title: "Master Bedroom",
       description:
         "Luxurious master suite with panoramic views and premium finishes.",
     },
     {
-      image:
-        "./Row Homes Images/East-Facing-Perspective-1-1-2048x1152.jpeg",
+      image: "./LP Gallery Villa Images/TVER Villa Live Image 01.jpg",
       title: "East Facing Perspective",
       description:
         "Beautiful east-facing elevation showcasing modern architectural design.",
     },
     {
-      image:
-        "./Row Homes Images/East-Facing-Perspective-1-1-scaled.jpeg",
+      image: "./LP Gallery Villa Images/TVER Villa Live Image 02.jpg",
       title: "Row Home Facade",
-      description:
-        "Elegant facade design perfect for modern family living.",
+      description: "Elegant facade design perfect for modern family living.",
     },
     {
-      image:
-        "./Row Homes Images/East-Facing-Perspective-1-scaled.jpeg",
+      image: "./LP Gallery Villa Images/TVER Villa Live Ph 2  Image 01.jpg",
       title: "Modern Kitchen",
       description:
         "State-of-the-art kitchen with high-end appliances and sleek design.",
     },
-    {
-      image:
-        "./Row Homes Images/East-Facing-Elevation-4-scaled.jpeg",
-      title: "East Facing Elevation",
-      description:
-        "Contemporary elevation design with premium materials and finishes.",
-    },
-    {
-      image:
-        "./Row Homes Images/West-Facing-Elevation-1-scaled.jpeg",
-      title: "West Facing Elevation",
-      description:
-        "Modern west-facing elevation with elegant architectural details.",
-    },
-    {
-      image:
-        "./Row Homes Images/Entrance.jpeg",
-      title: "Entrance View",
-      description:
-        "Welcoming entrance design with contemporary landscaping.",
-    },
-    {
-      image:
-        "./Row Homes Images/view-3-scaled.jpeg",
-      title: "Park View",
-      description:
-        "Beautiful park view from the row home with lush green surroundings.",
-    },
-    {
-      image:
-        "./Row Homes Images/Childrens-Play-Area.jpeg",
-      title: "Children's Play Area",
-      description:
-        "Dedicated play area for children with modern equipment and safety features.",
-    },
   ],
   east: [
     {
-      image:
-        "./Villa Creatives/TVER Villa Live Image 01.jpg",
+      image: "./LP Gallery Row House Images/Row House Phase 1.jpeg",
       title: "Luxury Villa Exterior",
       description:
         "Expansive villa with floor-to-ceiling windows and premium materials.",
     },
     {
-      image:
-        "./Villa Creatives/TVER Villa Live Image 02.jpg",
+      image: "./LP Gallery Row House Images/Row House Phase 2.jpeg",
       title: "Villa Living Area",
       description:
         "Professional-grade living space with island seating and top-tier finishes.",
     },
     {
-      image:
-        "./Villa Creatives/TVER Villa Live Ph 2  Image 01.jpg",
+      image: "./LP Gallery Row House Images/Row House Phase 3.jpeg",
       title: "Phase 2 Villa",
       description:
         "Serene villa retreat with walk-in spaces and private balcony access.",
     },
     {
-      image:
-        "./Villa Creatives/TVER Villa Phase 1.jpg",
+      image: "./LP Gallery Row House Images/TVER Row Homes Live image 01.jpg",
       title: "Phase 1 Villa",
       description:
         "Stylish villa area perfect for relaxation and family gatherings.",
     },
     {
-      image:
-        "./Villa Creatives/TVER Villa Phase 2.jpeg",
+      image: "./LP Gallery Row House Images/TVER Row Homes Live image 02.jpg",
       title: "Phase 2 Villa Design",
       description:
         "Modern villa design with contemporary architecture and premium amenities.",
     },
     {
-      image:
-        "./Villa Creatives/TVER Villa Phase 3.jpeg",
+      image: "./LP Gallery Row House Images/TVER Row Homes Live image 03.jpg",
       title: "Phase 3 Villa",
       description:
         "Latest phase villa with cutting-edge design and luxury features.",
@@ -959,141 +901,124 @@ const galleryInteriorData = {
   ],
   clubhouse: [
     {
-      image:
-        "./Clubhouse Images/05 Club-Verdant-Aerial.jpeg",
+      image: "./LP Gallery Clubhouse Images/01 Club-Verdant-Side.jpeg",
       title: "Club Verdant Aerial View",
       description:
         "Grand aerial view of Club Verdant with sophisticated design and welcoming ambiance for residents.",
     },
     {
-      image:
-        "./Clubhouse Images/01 Club-Verdant-Side.jpeg",
+      image: "./LP Gallery Clubhouse Images/2-PARK-VIEW-8-scaled.jpeg ",
       title: "Club Verdant Exterior",
       description:
         "Modern clubhouse exterior with contemporary architecture and premium finishes.",
     },
     {
-      image:
-        "./Clubhouse Images/03 Club-Verdant-Swimming-Pool.jpeg",
+      image: "./Clubhouse Images/03 Club-Verdant-Swimming-Pool.jpeg",
       title: "Swimming Pool",
       description:
         "Olympic-sized pool with temperature control and lounging areas.",
     },
     {
-      image:
-        "./Clubhouse Images/04 Entrance.jpeg",
+      image: "./LP Gallery Clubhouse Images/04 Entrance.jpeg",
       title: "Clubhouse Entrance",
       description:
         "Elegant entrance design with modern landscaping and welcoming atmosphere.",
     },
     {
-      image:
-        "./Clubhouse Images/18 Childrens-Play-Area.jpeg",
+      image: "./LP Gallery Clubhouse Images/05 Club-Verdant-Aerial.jpeg",
       title: "Children's Play Area",
       description:
         "Dedicated play area for children with modern equipment and safety features.",
     },
     {
-      image:
-        "./Clubhouse Images/19 Meditation-Area.jpeg",
+      image: "./LP Gallery Clubhouse Images/06 PARK-VIEW-3-scaled.jpeg",
       title: "Meditation Area",
       description:
         "Peaceful meditation space for relaxation and mindfulness activities.",
     },
     {
-      image:
-        "./Clubhouse Images/20 Tennis-Court.jpeg",
+      image: "./LP Gallery Clubhouse Images/07 PARK-VIEW-5-scaled.jpeg",
       title: "Tennis Court",
       description:
         "Professional tennis court with premium surface and lighting.",
     },
     {
-      image:
-        "./Clubhouse Images/21 Villa-Terrace.jpeg",
+      image: "./LP Gallery Clubhouse Images/08 PARK-VIEW-4-scaled.jpeg",
       title: "Villa Terrace",
       description:
         "Beautiful terrace area with panoramic views and outdoor seating.",
     },
     {
-      image:
-        "./Clubhouse Images/06 PARK-VIEW-3-scaled.jpeg",
+      image: "./LP Gallery Clubhouse Images/09 PARK-VIEW-10-scaled.jpeg",
       title: "Park View 1",
-      description:
-        "Stunning park view showcasing the lush green surroundings.",
+      description: "Stunning park view showcasing the lush green surroundings.",
     },
     {
-      image:
-        "./Clubhouse Images/07 PARK-VIEW-5-scaled.jpeg",
+      image: "./LP Gallery Clubhouse Images/10 PARK-VIEW-12-scaled.jpeg",
       title: "Park View 2",
       description:
         "Another beautiful park view with well-maintained landscaping.",
     },
     {
-      image:
-        "./Clubhouse Images/08 PARK-VIEW-4-scaled.jpeg",
+      image: "./LP Gallery Clubhouse Images/11 PARK-VIEW-13-scaled.jpeg",
       title: "Park View 3",
       description:
         "Scenic park view with modern amenities and recreational facilities.",
     },
     {
-      image:
-        "./Clubhouse Images/09 PARK-VIEW-10-scaled.jpeg",
+      image: "./LP Gallery Clubhouse Images/12 PARK-VIEW-14-scaled.jpeg",
       title: "Park View 4",
-      description:
-        "Expansive park view with walking trails and green spaces.",
+      description: "Expansive park view with walking trails and green spaces.",
     },
     {
-      image:
-        "./Clubhouse Images/10 PARK-VIEW-12-scaled.jpeg",
+      image: "./LP Gallery Clubhouse Images/13 PARK-VIEW-1-scaled.jpeg",
       title: "Park View 5",
       description:
         "Beautiful park landscape with modern recreational facilities.",
     },
     {
-      image:
-        "./Clubhouse Images/11 PARK-VIEW-13-scaled.jpeg",
+      image: "./LP Gallery Clubhouse Images/14 PARK-VIEW-6-scaled.jpeg",
       title: "Park View 6",
-      description:
-        "Scenic park area with premium landscaping and amenities.",
+      description: "Scenic park area with premium landscaping and amenities.",
     },
     {
-      image:
-        "./Clubhouse Images/12 PARK-VIEW-14-scaled.jpeg",
+      image: "./LP Gallery Clubhouse Images/15 PARK-GYM-VIEW-18-scaled.jpeg",
       title: "Park View 7",
       description:
         "Modern park design with contemporary features and green spaces.",
     },
     {
-      image:
-        "./Clubhouse Images/13 PARK-VIEW-1-scaled.jpeg",
+      image: "./LP Gallery Clubhouse Images/16 PARK-VIEW-16-scaled.jpeg",
       title: "Park View 8",
       description:
         "Beautiful park view with recreational facilities and walking paths.",
     },
     {
-      image:
-        "./Clubhouse Images/14 PARK-VIEW-6-scaled.jpeg",
+      image: "./LP Gallery Clubhouse Images/17 PARK-VIEW-20-scaled.jpeg",
       title: "Park View 9",
       description:
         "Scenic park landscape with modern amenities and green spaces.",
     },
     {
-      image:
-        "./Clubhouse Images/15 PARK-GYM-VIEW-18-scaled.jpeg",
+      image: "./LP Gallery Clubhouse Images/18 Childrens-Play-Area.jpeg",
       title: "Park Gym View",
       description:
         "Outdoor gym area with modern equipment and park surroundings.",
     },
     {
-      image:
-        "./Clubhouse Images/16 PARK-VIEW-16-scaled.jpeg",
+      image: "./LP Gallery Clubhouse Images/19 Meditation-Area.jpeg",
       title: "Park View 10",
       description:
         "Beautiful park area with recreational facilities and landscaping.",
     },
     {
-      image:
-        "./Clubhouse Images/17 PARK-VIEW-20-scaled.jpeg",
+      image: "./LP Gallery Clubhouse Images/20 Tennis-Court.jpeg",
+      title: "Park View 11",
+      description:
+        "Modern park design with contemporary features and green spaces.",
+    },
+    {
+      image: "./LP Gallery Clubhouse Images/21 Villa-Terrace.jpeg",
       title: "Park View 11",
       description:
         "Modern park design with contemporary features and green spaces.",
@@ -1390,20 +1315,34 @@ const propData = {
       "Step into a world where luxury embraces nature. With spacious layouts, elegant finishes, and serene surroundings, every home is a private sanctuary designed for those who seek sophistication and tranquility in equal measure.",
     features: [
       { label: "", icon: "./icons/plot.svg", value: "100+ Amenities" },
-      { label: "", icon: "./icons/nature.svg", value: "50,000 Sqft Multistorey Clubhouse" },
-      { label: "", icon: "./icons/maximize.svg", value: "60 % Open Green Space" },
-      { label: "", icon: "./icons/gate.svg", value: "27 Lush Parks for Leisure & Recreation" },
+      {
+        label: "",
+        icon: "./icons/nature.svg",
+        value: "50,000 Sqft Multistorey Clubhouse",
+      },
+      {
+        label: "",
+        icon: "./icons/maximize.svg",
+        value: "60 % Open Green Space",
+      },
+      {
+        label: "",
+        icon: "./icons/gate.svg",
+        value: "27 Lush Parks for Leisure & Recreation",
+      },
     ],
     details: {
       top: [
         { category: "", icon: "", title: "Indoor Temperature Controlled pool" },
         { category: "", icon: "", title: "Olympic Sized Swimming pool" },
-        { category: "", icon: "", title: "Provisioned with Ev Charging Points" },
+        {
+          category: "",
+          icon: "",
+          title: "Provisioned with Ev Charging Points",
+        },
         { category: "", icon: "", title: "Rooftop Solar Systems" },
       ],
-      bottom: [
-        { category: "", icon: "", title: "The Club Verdent" },
-      ],
+      bottom: [{ category: "", icon: "", title: "The Club Verdent" }],
     },
   },
   villas: {
@@ -1413,20 +1352,34 @@ const propData = {
       "Experience the perfect harmony of luxury, elegance, and nature. Nestled in Budigere, Whitefield, these 4 BHK villas redefine upscale living with spacious layouts, modern aesthetics, lush gardens, and serene outdoor spaces — a private sanctuary for a truly elevated lifestyle.",
     features: [
       { label: "", icon: "./icons/plot.svg", value: "100+ Amenities" },
-      { label: "", icon: "./icons/nature.svg", value: "50,000 Sqft Multistorey Clubhouse" },
-      { label: "", icon: "./icons/maximize.svg", value: "60 % Open Green Space" },
-      { label: "", icon: "./icons/gate.svg", value: "27 Lush Parks for Leisure & Recreation" },
+      {
+        label: "",
+        icon: "./icons/nature.svg",
+        value: "50,000 Sqft Multistorey Clubhouse",
+      },
+      {
+        label: "",
+        icon: "./icons/maximize.svg",
+        value: "60 % Open Green Space",
+      },
+      {
+        label: "",
+        icon: "./icons/gate.svg",
+        value: "27 Lush Parks for Leisure & Recreation",
+      },
     ],
     details: {
       top: [
         { category: "", icon: "", title: "Indoor Temperature Controlled pool" },
         { category: "", icon: "", title: "Olympic Sized Swimming pool" },
-        { category: "", icon: "", title: "Provisioned with Ev Charging Points" },
+        {
+          category: "",
+          icon: "",
+          title: "Provisioned with Ev Charging Points",
+        },
         { category: "", icon: "", title: "Rooftop Solar Systems" },
       ],
-      bottom: [
-        { category: "", icon: "", title: "The Club Verdent" },
-      ],
+      bottom: [{ category: "", icon: "", title: "The Club Verdent" }],
     },
   },
 };
@@ -1536,92 +1489,81 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-
-
 // Open Brochure Popup
 function openBrochurePopup() {
-  const popup = document.getElementById('brochurePopup');
-  popup.classList.add('active');
-  document.body.style.overflow = 'hidden'; // Prevent background scrolling
+  const popup = document.getElementById("brochurePopup");
+  popup.classList.add("active");
+  document.body.style.overflow = "hidden"; // Prevent background scrolling
 }
 
 // Close Brochure Popup
 function closeBrochurePopup() {
-  const popup = document.getElementById('brochurePopup');
-  popup.classList.remove('active');
-  document.body.style.overflow = ''; // Restore scrolling
+  const popup = document.getElementById("brochurePopup");
+  popup.classList.remove("active");
+  document.body.style.overflow = ""; // Restore scrolling
 }
 
 // Close popup when clicking outside
-document.getElementById('brochurePopup').addEventListener('click', function(e) {
-  if (e.target === this) {
-    closeBrochurePopup();
-  }
-});
+document
+  .getElementById("brochurePopup")
+  .addEventListener("click", function (e) {
+    if (e.target === this) {
+      closeBrochurePopup();
+    }
+  });
 
 // Close popup with Escape key
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') {
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Escape") {
     closeBrochurePopup();
   }
 });
 
-// Handle Form Submission
+// Handle Form Submissionf
 function handleBrochureSubmit(event) {
   event.preventDefault();
-  
-  const form = document.getElementById('brochureDownloadForm');
+
+  const form = document.getElementById("brochureDownloadForm");
   const formData = {
     name: form.querySelector('input[type="text"]').value,
     email: form.querySelector('input[type="email"]').value,
     phone: form.querySelector('input[type="tel"]').value,
-    countryCode: form.querySelector('.country-code').value,
-    propertyType: form.querySelector('select').value,
+    countryCode: form.querySelector(".country-code").value,
+    propertyType: form.querySelector("select").value,
     agreeToUpdates: form.querySelector('input[type="checkbox"]').checked,
     timestamp: new Date().toISOString(),
-    formType: 'brochure_download'
+    formType: "brochure_download",
   };
 
   // Log the data (you can send this to your backend later)
-  console.log('Brochure Download Form Data:', formData);
+  console.log("Brochure Download Form Data:", formData);
 
   // Show success message
-  const submitBtn = form.querySelector('.btn-form');
+  const submitBtn = form.querySelector(".btn-form");
   const originalText = submitBtn.textContent;
-  
-  submitBtn.textContent = ' submitting...';
-  submitBtn.style.backgroundColor = '#4ade80';
+
+  submitBtn.textContent = " submitting...";
+  submitBtn.style.backgroundColor = "#4ade80";
   submitBtn.disabled = true;
 
   // Simulate download and reset
   setTimeout(() => {
-    submitBtn.textContent = '✓  Successful!';
-    
+    submitBtn.textContent = "✓  Successful!";
+
     setTimeout(() => {
       closeBrochurePopup();
       form.reset();
       form.querySelector('input[type="checkbox"]').checked = true;
       submitBtn.textContent = originalText;
-      submitBtn.style.backgroundColor = '#ff6b35';
+      submitBtn.style.backgroundColor = "#ff6b35";
       submitBtn.disabled = false;
     }, 2000);
   }, 1500);
 }
 
-
-
-
-
-
-
-
-
-
-
-
 // Create fullscreen modal HTML
-const fullscreenModal = document.createElement('div');
-fullscreenModal.id = 'fullscreenModal';
+const fullscreenModal = document.createElement("div");
+fullscreenModal.id = "fullscreenModal";
 fullscreenModal.innerHTML = `
   <style>
     #fullscreenModal {
@@ -1684,28 +1626,30 @@ document.body.appendChild(fullscreenModal);
 
 // Function to open fullscreen
 function openFullscreen(imageSrc) {
-  const modal = document.getElementById('fullscreenModal');
-  const img = document.getElementById('fullscreenImage');
+  const modal = document.getElementById("fullscreenModal");
+  const img = document.getElementById("fullscreenImage");
   img.src = imageSrc;
-  modal.classList.add('active');
+  modal.classList.add("active");
 }
 
 // Function to close fullscreen
 function closeFullscreen() {
-  const modal = document.getElementById('fullscreenModal');
-  modal.classList.remove('active');
+  const modal = document.getElementById("fullscreenModal");
+  modal.classList.remove("active");
 }
 
 // Close on background click
-document.getElementById('fullscreenModal').addEventListener('click', function(e) {
-  if (e.target === this) {
-    closeFullscreen();
-  }
-});
+document
+  .getElementById("fullscreenModal")
+  .addEventListener("click", function (e) {
+    if (e.target === this) {
+      closeFullscreen();
+    }
+  });
 
 // Close on ESC key
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') {
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Escape") {
     closeFullscreen();
   }
 });
@@ -1737,29 +1681,120 @@ function renderFloorPlanSlider() {
   updateFloorPlanSliderPosition();
 }
 
+function showPhase(phaseNumber) {
+  // Remove active class from all buttons
+  const buttons = document.querySelectorAll(".phase-btn");
+  buttons.forEach((btn) => btn.classList.remove("active"));
 
+  // Add active class to clicked button
+  buttons[phaseNumber - 1].classList.add("active");
 
+  // Hide all phase contents
+  const phases = document.querySelectorAll(".phase-content");
+  phases.forEach((phase) => phase.classList.remove("active"));
 
- function showPhase(phaseNumber) {
-            // Remove active class from all buttons
-            const buttons = document.querySelectorAll('.phase-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            
-            // Add active class to clicked button
-            buttons[phaseNumber - 1].classList.add('active');
-            
-            // Hide all phase contents
-            const phases = document.querySelectorAll('.phase-content');
-            phases.forEach(phase => phase.classList.remove('active'));
-            
-            // Show selected phase
-            document.getElementById('phase' + phaseNumber).classList.add('active');
+  // Show selected phase
+  document.getElementById("phase" + phaseNumber).classList.add("active");
 }
-
-
 
 //code added
 
+// Wrap everything in IIFE to avoid conflicts
+(function () {
+  // Only run if elements exist
+  const mpImg = document.getElementById("masterplanImage");
+  const mpOverlay = document.getElementById("fullscreenOverlay");
+  const mpFullscreenImg = document.getElementById("fullscreenImage2");
+  const mpCloseBtn = document.getElementById("closeBtn");
+
+  // Exit if elements not found
+  if (!mpImg || !mpOverlay || !mpFullscreenImg || !mpCloseBtn) {
+    return;
+  }
+
+  // Open fullscreen
+  function openMpFullscreen() {
+    mpFullscreenImg.src = mpImg.src;
+    mpOverlay.classList.add("active");
+    document.body.classList.add("mp-no-scroll");
+  }
+
+  // Close fullscreen
+  function closeMpFullscreen() {
+    mpOverlay.classList.remove("active");
+    document.body.classList.remove("mp-no-scroll");
+  }
+
+  // Image click
+  mpImg.addEventListener("click", openMpFullscreen);
+
+  // Close button click
+  mpCloseBtn.addEventListener("click", function (e) {
+    e.stopPropagation();
+    closeMpFullscreen();
+  });
+
+  // Overlay click
+  mpOverlay.addEventListener("click", function (e) {
+    if (e.target === mpOverlay) {
+      closeMpFullscreen();
+    }
+  });
+
+  // ESC key
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && mpOverlay.classList.contains("active")) {
+      closeMpFullscreen();
+    }
+  });
+})();
 
 
-  
+ // Location Map Fullscreen Handler - Only for location map
+        (function() {
+            const laImg = document.getElementById('locationMapImage');
+            const laOverlay = document.getElementById('laFullscreenOverlay');
+            const laFullscreenImg = document.getElementById('laFullscreenImage');
+            const laCloseBtn = document.getElementById('laCloseBtn');
+
+            // Exit if elements not found
+            if (!laImg || !laOverlay || !laFullscreenImg || !laCloseBtn) {
+                return;
+            }
+
+            // Open fullscreen
+            function openLaFullscreen() {
+                laFullscreenImg.src = laImg.src;
+                laOverlay.classList.add('active');
+                document.body.classList.add('la-no-scroll');
+            }
+
+            // Close fullscreen
+            function closeLaFullscreen() {
+                laOverlay.classList.remove('active');
+                document.body.classList.remove('la-no-scroll');
+            }
+
+            // Image click
+            laImg.addEventListener('click', openLaFullscreen);
+
+            // Close button click
+            laCloseBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                closeLaFullscreen();
+            });
+
+            // Overlay click
+            laOverlay.addEventListener('click', function(e) {
+                if (e.target === laOverlay) {
+                    closeLaFullscreen();
+                }
+            });
+
+            // ESC key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && laOverlay.classList.contains('active')) {
+                    closeLaFullscreen();
+                }
+            });
+        })();
