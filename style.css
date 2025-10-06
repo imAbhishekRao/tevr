@@ -2785,6 +2785,9 @@ input[type="time"] {
   transition: all 0.3s ease;
   cursor: pointer;
 }
+.amenity-item span{
+  color: #69bc8a;
+}
 
 .amenity-item:hover {
   background: linear-gradient(
@@ -2972,7 +2975,7 @@ input[type="time"] {
 .amenity-item i {
   font-size: 1rem;
   margin-right: 6px;
-  color: #ffd700;
+  color: #ffffff;
 }
 
 @keyframes scroll {
@@ -3624,7 +3627,7 @@ input[type="time"] {
 @media screen and (max-width: 480px) {
   /* Navbar */
   .navbar {
-    padding: 10px 15px;
+    padding: 20px 15px;
     width: 100vw;
   }
 
@@ -3647,11 +3650,11 @@ input[type="time"] {
   }
   .slider-container-main {
     background-image: url(./images/landingpage/Website\ Villa\ Offer\ Creative\ Mobile\ View.jpg);
-    /* min-height: 100vh; */
+    min-height: 90vh;
   }
 
   .overiew-section {
-    padding: 2rem 1rem;
+    padding: 3rem 1rem;
   }
 
   .hero-title {
@@ -3785,6 +3788,7 @@ input[type="time"] {
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
     padding: 10px;
+    justify-content: center;
   }
 
   .amenity-item {
@@ -3865,6 +3869,7 @@ input[type="time"] {
   /* Footer */
   .footer {
     padding: 15px 10px;
+    margin-bottom: 2rem;
   }
 
   .address {
@@ -3901,11 +3906,13 @@ input[type="time"] {
     bottom: 25px;
     right: 15px;
     width: auto;
+    display: none;
   }
   .floating-left {
     bottom: 25px;
     left: 15px;
     width: auto;
+    display: none;
   }
 
   .floating .btn {
@@ -3915,6 +3922,9 @@ input[type="time"] {
   .section-title{
     font-size: 2rem;
     line-height: 1.2;
+  }
+  .image-placeholder{
+    padding: 1rem 0.5rem;
   }
 }
 
@@ -4378,4 +4388,51 @@ body.la-no-scroll {
   bottom: 20px;
   left: 20px;
   z-index: 9999;
+}
+.mobile-bottom-btns{
+  height: 0;
+  width: 0;
+  display: none;
+}
+/* Small Mobile Devices (max-width: 480px) */
+@media screen and (max-width: 480px) {
+  .section-title{
+    font-size: 2.2rem;
+    line-height: 1.2;
+  }
+  .sub-title {
+    font-size: 1.2rem;
+    /* font-weight: 100; */
+    line-height: 1.3;
+    margin-top: 2rem;
+    color: white;
+  }
+  body{
+    width: 100vw;
+    overflow-x: hidden;
+  }
+  .mobile-bottom-btns{
+    width: 100%;
+    height: 80px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding: 1rem;
+    background-color: #103c3b;
+    z-index: 999999;
+  }
+  .mobile-btns{
+    width: 100%;
+    background-color: #69bc8a;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    font-weight: 200;
+  }
 }
