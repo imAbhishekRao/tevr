@@ -32,11 +32,13 @@ function submitTrifectaPopupForm(formSelector, buttonSelector, noteSelector) {
       success: function (response) {
         if (response.message) {
           // Redirect to thank you page
-          window.location.href = './thank-you.html';
+          window.location.href = "./thank-you.html";
         } else {
           $(buttonSelector).removeAttr("disabled").text("Download Now");
-          var result = '<p style="color:red; font-weight: 600; font-size: 16px; width:100%">' +
-            (response.error || "Unknown error occurred") + "</p>";
+          var result =
+            '<p style="color:red; font-weight: 600; font-size: 16px; width:100%">' +
+            (response.error || "Unknown error occurred") +
+            "</p>";
           $(noteSelector).html(result).show();
         }
       },
@@ -97,11 +99,13 @@ function submitRowhomesForm(formSelector, buttonSelector, noteSelector) {
       success: function (response) {
         if (response.message) {
           // Redirect to thank you page
-          window.location.href = './thank-you.html';
+          window.location.href = "./thank-you.html";
         } else {
           $(buttonSelector).removeAttr("disabled").text(originalText);
-          var result = '<p style="color:red; font-weight: 600; font-size: 16px; width:100%">' +
-            (response.error || "Unknown error occurred") + "</p>";
+          var result =
+            '<p style="color:red; font-weight: 600; font-size: 16px; width:100%">' +
+            (response.error || "Unknown error occurred") +
+            "</p>";
           $(noteSelector).html(result).show();
         }
       },
@@ -171,13 +175,15 @@ function submitVillasForm(formSelector, buttonSelector, noteSelector) {
         .then((data) => {
           if (data.message) {
             // Redirect to thank you page
-            window.location.href = './thank-you.html';
+            window.location.href = "./thank-you.html";
           } else {
             button.disabled = false;
             button.textContent = originalText;
             const noteElement = document.querySelector(noteSelector);
-            let result = '<p style="color:red; font-weight: 600; font-size: 16px; width:100%">' +
-              (data.error || "Unknown error occurred") + "</p>";
+            let result =
+              '<p style="color:red; font-weight: 600; font-size: 16px; width:100%">' +
+              (data.error || "Unknown error occurred") +
+              "</p>";
             noteElement.innerHTML = result;
             noteElement.style.display = "block";
           }
@@ -633,7 +639,7 @@ const floorPlansData = {
   },
 };
 
-let floorPlanCurrentFacing = "north";
+let floorPlanCurrentFacing = "east";
 let floorPlanCurrentSlide = 0;
 
 function initializeFloorPlanSlider() {
@@ -993,7 +999,7 @@ const galleryInteriorData = {
   ],
 };
 
-let galleryCurrentFace = "north";
+let galleryCurrentFace = "east";
 let galleryCurrentSlideIndex = 0;
 let galleryIsTransitioning = false;
 
@@ -1216,24 +1222,6 @@ function showProperty(event, type) {
   document.getElementById(type + "-section").classList.add("active");
 }
 
-function submitVillamentsForm(event) {
-  event.preventDefault();
-  const formData = {
-    propertyType: "villaments",
-    name: document.getElementById("villaments-name").value,
-    email: document.getElementById("villaments-email").value,
-    countryCode: document.getElementById("villaments-country-code").value,
-    phone: document.getElementById("villaments-phone").value,
-    date: document.getElementById("villaments-date").value,
-    time: document.getElementById("villaments-time").value,
-    location: "Bengaluru Central",
-  };
-  console.log("Villaments Form Data:", formData);
-  showSuccessMessage("Villaments visit scheduled successfully!");
-  document.getElementById("villamentsForm").reset();
-  document.getElementById("villaments-date").value = "2025-09-26";
-}
-
 function submitVillasForm(event) {
   event.preventDefault();
   const formData = {
@@ -1250,6 +1238,24 @@ function submitVillasForm(event) {
   showSuccessMessage("Villas visit scheduled successfully!");
   document.getElementById("villasForm").reset();
   document.getElementById("villas-date").value = "2025-09-26";
+}
+
+function submitVillamentsForm(event) {
+  event.preventDefault();
+  const formData = {
+    propertyType: "villaments",
+    name: document.getElementById("villaments-name").value,
+    email: document.getElementById("villaments-email").value,
+    countryCode: document.getElementById("villaments-country-code").value,
+    phone: document.getElementById("villaments-phone").value,
+    date: document.getElementById("villaments-date").value,
+    time: document.getElementById("villaments-time").value,
+    location: "Bengaluru Central",
+  };
+  console.log("Villaments Form Data:", formData);
+  showSuccessMessage("Villaments visit scheduled successfully!");
+  document.getElementById("villamentsForm").reset();
+  document.getElementById("villaments-date").value = "2025-09-26";
 }
 
 function showSuccessMessage(message) {
@@ -1716,55 +1722,51 @@ function showPhase(phaseNumber) {
   });
 })();
 
+// Location Map Fullscreen Handler - Only for location map
+(function () {
+  const laImg = document.getElementById("locationMapImage");
+  const laOverlay = document.getElementById("laFullscreenOverlay");
+  const laFullscreenImg = document.getElementById("laFullscreenImage");
+  const laCloseBtn = document.getElementById("laCloseBtn");
 
- // Location Map Fullscreen Handler - Only for location map
-        (function() {
-            const laImg = document.getElementById('locationMapImage');
-            const laOverlay = document.getElementById('laFullscreenOverlay');
-            const laFullscreenImg = document.getElementById('laFullscreenImage');
-            const laCloseBtn = document.getElementById('laCloseBtn');
+  // Exit if elements not found
+  if (!laImg || !laOverlay || !laFullscreenImg || !laCloseBtn) {
+    return;
+  }
 
-            // Exit if elements not found
-            if (!laImg || !laOverlay || !laFullscreenImg || !laCloseBtn) {
-                return;
-            }
+  // Open fullscreen
+  function openLaFullscreen() {
+    laFullscreenImg.src = laImg.src;
+    laOverlay.classList.add("active");
+    document.body.classList.add("la-no-scroll");
+  }
 
-            // Open fullscreen
-            function openLaFullscreen() {
-                laFullscreenImg.src = laImg.src;
-                laOverlay.classList.add('active');
-                document.body.classList.add('la-no-scroll');
-            }
+  // Close fullscreen
+  function closeLaFullscreen() {
+    laOverlay.classList.remove("active");
+    document.body.classList.remove("la-no-scroll");
+  }
 
-            // Close fullscreen
-            function closeLaFullscreen() {
-                laOverlay.classList.remove('active');
-                document.body.classList.remove('la-no-scroll');
-            }
+  // Image click
+  laImg.addEventListener("click", openLaFullscreen);
 
-            // Image click
-            laImg.addEventListener('click', openLaFullscreen);
+  // Close button click
+  laCloseBtn.addEventListener("click", function (e) {
+    e.stopPropagation();
+    closeLaFullscreen();
+  });
 
-            // Close button click
-            laCloseBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                closeLaFullscreen();
-            });
+  // Overlay click
+  laOverlay.addEventListener("click", function (e) {
+    if (e.target === laOverlay) {
+      closeLaFullscreen();
+    }
+  });
 
-            // Overlay click
-            laOverlay.addEventListener('click', function(e) {
-                if (e.target === laOverlay) {
-                    closeLaFullscreen();
-                }
-            });
-
-            // ESC key
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && laOverlay.classList.contains('active')) {
-                    closeLaFullscreen();
-                }
-            });
-        })();
-
-
-        
+  // ESC key
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && laOverlay.classList.contains("active")) {
+      closeLaFullscreen();
+    }
+  });
+})();
