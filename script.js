@@ -1581,7 +1581,7 @@ fullscreenModal.innerHTML = `
     }
     
     #fullscreenModal .close-btn:hover {
-      background: #d4933e;
+      background: #69bc8a;
       color: white;
       transform: scale(1.1);
     }
